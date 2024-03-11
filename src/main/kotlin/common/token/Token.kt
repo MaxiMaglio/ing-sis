@@ -1,8 +1,8 @@
 package common.token
 
 data class Token(
-    val tokenType : TokenType,
+    val type : TokenType,
     val value : String,
-    val lineNumber : Int,
-    val position : Int
+    val lineNumber : Int, // seria la linea del codigo
+    val position : Int // seria el caracter donde esta
 )

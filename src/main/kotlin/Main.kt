@@ -1,11 +1,17 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import lexer.Lexer
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() {
+
+    val lexer = Lexer("123 + 456 - 789")
+    val tokens = lexer.convertToToken()
+
+    tokens.forEach { token ->
+        println("Type: ${token.type}, Value: ${token.value}, Line: ${token.lineNumber}, Position: ${token.position}")
+    }
+
+    val lexer2 = Lexer("name = 'John'")
+    val tokens2 = lexer2.convertToToken()
+    tokens2.forEach { token ->
+        println("Type: ${token.type}, Value: ${token.value}, Line: ${token.lineNumber}, Position: ${token.position}")
+    }
 }
-
-//position -> inicio y fin (fila y columna)
-//type
-//value
