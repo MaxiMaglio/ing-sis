@@ -80,7 +80,7 @@ class Lexer(private val input: String) {
                             position++
                         }
                         tokens.add(Token(TokenType.IDENTIFIER, input.substring(start, position), lineNumber, start + 1))
-                    } else {
+                    }else {
                         tokens.add(Token(TokenType.UNKNOWN, currentChar.toString(), lineNumber, position + 1))
                         position++
                     }
