@@ -81,7 +81,7 @@ class Lexer(private val input: String) {
                         }
                         tokens.add(Token(TokenType.IDENTIFIER, input.substring(start, position), lineNumber, start + 1))
                     }else {
-                        tokens.add(Token(TokenType.UNKNOWN, currentChar.toString(), lineNumber, position + 1))
+//                        tokens.add(Token(TokenType.UNKNOWN, currentChar.toString(), lineNumber, position + 1))
                         position++
                     }
                 }
@@ -90,5 +90,4 @@ class Lexer(private val input: String) {
         }
         return tokens
     }
-
 }

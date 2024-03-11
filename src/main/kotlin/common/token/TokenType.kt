@@ -11,6 +11,10 @@ enum class TokenType {
     ELSE,
     WHILE,
     RETURN,
+    FINAL,
+    PUBLIC,
+    PRIVATE,
+    PROTECTED,
 
     //types
     STRING_TYPE,
