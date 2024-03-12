@@ -38,7 +38,6 @@ enum class TokenType {
     CLOSE_PARENTHESIS,
     SEMICOLON,
     COLON,
-    UNKNOWN,
     WHITESPACE;
 
 
