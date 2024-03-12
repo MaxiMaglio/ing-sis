@@ -1,8 +1,7 @@
-package lexer
+package lexer.implementation
 
 import common.token.Token
 import common.token.TokenType
-import java.util.*
 
 class Lexer(private val input: String) {
 

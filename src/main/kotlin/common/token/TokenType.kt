@@ -20,7 +20,7 @@ enum class TokenType {
     STRING_TYPE,
     NUMBER_TYPE,
 
-    //declarations
+    //declarations (values)
     NUMERIC_LITERAL,
     STRING_LITERAL,
 
