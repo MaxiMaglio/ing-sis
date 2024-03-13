@@ -1,6 +1,7 @@
 package common.ast.implementation
 
 import common.ast.AST
+import common.ast.node.LeafNode
 import common.ast.node.Node
 import common.token.Token
 
@@ -20,14 +21,19 @@ class DeclarationAST(private val tokens: List<Token>) :AST {
      *    SEMICOLON
      */
 
-
-
-
     override fun getChildren(): List<Node> {
-        TODO("Not yet implemented")
+        val letToken = tokens[0]
+        val identifierToken = tokens[1]
+        val typeToken = tokens[3]
+
+        val letNode = LeafNode(letToken.type, letToken.value)
+        val identifierNode = LeafNode(identifierToken.type, identifierToken.value)
+        val typeNode = LeafNode(typeToken.type, typeToken.value)
+
+        return listOf(letNode, identifierNode, typeNode)
     }
 
     override fun getTokensInLine(): List<Token> {
-        TODO("Not yet implemented")
+        return tokens
     }
 }
