@@ -9,7 +9,7 @@ data class TreeNode(
     val headValue: String
 )  : Node{
 
-    override fun getValue(): String {
+    override fun getNodeValue(): String {
         return headValue;
     }
 }

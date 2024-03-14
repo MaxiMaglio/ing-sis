@@ -7,7 +7,7 @@ data class LeafNode (
     val value: String )
     : Node {
 
-        override fun getValue(): String {
+        override fun getNodeValue(): String {
             return value
         }
 }

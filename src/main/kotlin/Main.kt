@@ -1,4 +1,4 @@
-import lexer.Lexer
+import lexer.implementation.Lexer
 
 fun main() {
 
