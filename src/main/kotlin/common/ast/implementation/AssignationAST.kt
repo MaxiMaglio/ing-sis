@@ -22,7 +22,7 @@ class AssignationAST(private val tokens: List<Token>) :AST {
     override fun getChildren(): List<Node> {
         // Asumo que el primer token es el identifier y el ultimo el punto y coma
         val identifierToken = tokens.first()
-        val valueTokens = tokens.drop(1).dropLast(2) // Todos los tokens menos el identificador, el velue y el punto y coma
+        val valueTokens = tokens.drop(1).dropLast(2) // Todos los tokens menos el identificador, el value y el punto y coma
         val valueToken = tokens.dropLast(1).last() // El último token antes del punto y coma va a ser el valor
 
         val identifierNode = LeafNode(identifierToken.type, identifierToken.value)
