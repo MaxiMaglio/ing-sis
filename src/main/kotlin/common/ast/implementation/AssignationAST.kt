@@ -28,6 +28,7 @@ class AssignationAST(private val tokens: List<Token>) :AST {
         val identifierNode = LeafNode(identifierToken.type, identifierToken.value)
         val valueNode = TreeNode(valueToken.type, null, null, valueToken.value)
 
+
         return listOf(identifierNode, valueNode)
     }
 

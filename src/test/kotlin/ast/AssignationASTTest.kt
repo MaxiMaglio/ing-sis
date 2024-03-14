@@ -25,8 +25,8 @@ class AssignationASTTest {
 
         val children = assignationAST.getChildren()
         assertEquals(2, children.size)
-        assertEquals("x", (children[0] as LeafNode).value)
-        assertEquals("5", (children[1] as TreeNode).headValue)
+        assertEquals("x", (children[0] as LeafNode).getValue())
+        assertEquals("5", (children[1] as TreeNode).getValue())
     }
 
     @Test
