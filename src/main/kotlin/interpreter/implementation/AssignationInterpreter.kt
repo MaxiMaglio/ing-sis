@@ -5,10 +5,9 @@ import common.ast.node.LeafNode
 import common.ast.node.TreeNode
 import interpreter.`interface`.Interpreter
 
-class AssignationInterpreter : Interpreter {
+class AssignationInterpreter(private val symbolTable: MutableMap<String, String?>) : Interpreter {
 
     //tabla de valores para las asignaciones
-    val variables = mutableMapOf<String, Any>()
 
     override fun interpret(ast: AST) {
         val children = ast.getChildren()
@@ -20,15 +19,12 @@ class AssignationInterpreter : Interpreter {
             else -> throw IllegalArgumentException("Unexpected node type in AST")
         }
 
-
         val typeNode = children[1] as LeafNode
         val valueNode = children[2] as TreeNode
 
-
-
         // Interpretar el valor y asignarlo al identificador en el contexto
         val value = interpretValue(valueNode)
-        variables[identifierNode.getValue()] = value
+        symbolTable[identifierNode.getValue()] = value.toString()
 
         println("Asignación realizada: $identifierNode.value = $value")
     }
