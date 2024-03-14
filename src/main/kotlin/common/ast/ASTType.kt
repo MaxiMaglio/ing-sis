@@ -1,8 +1,8 @@
 package common.ast
 
 enum class ASTType {
-    DECLARATION,
-    ASSIGNATION,
-    DECLARATION_ASSIGNATION,
-    FUNCTION;
+    DECLARATION,                // let a : Number
+    ASSIGNATION,                // a = 4
+    DECLARATION_ASSIGNATION,    // let a : Number = 4
+    FUNCTION;                   // println (algo)
 }
