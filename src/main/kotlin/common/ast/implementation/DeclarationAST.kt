@@ -30,6 +30,7 @@ class DeclarationAST(private val tokens: List<Token>) :AST {
         val letToken = tokens.firstOrNull { it.type == TokenType.LET }
         val identifierToken = tokens.firstOrNull { it.type == TokenType.IDENTIFIER }
         val colonToken = tokens.firstOrNull { it.type == TokenType.COLON }
+        val typeToken = tokens.firstOrNull { it.type == TokenType.TYPE }
         val semicolonToken = tokens.firstOrNull { it.type == TokenType.SEMICOLON }
 
         if (letToken != null)
@@ -38,6 +39,8 @@ class DeclarationAST(private val tokens: List<Token>) :AST {
             children.add(LeafNode(TokenType.IDENTIFIER, identifierToken.value))
         if (colonToken != null)
             children.add(LeafNode(TokenType.COLON, colonToken.value))
+        if (colonToken != null)
+            children.add(LeafNode(TokenType.TYPE, typeToken!!.value))
         if (semicolonToken != null)
             children.add(LeafNode(TokenType.SEMICOLON, semicolonToken.value))
 
