@@ -41,7 +41,8 @@ enum class TokenType {
     COLON,
     WHITESPACE,
     ASSIGN,
-    LITERAL;
+    LITERAL,
 
+    INVALID;
 
 }

@@ -17,7 +17,7 @@ class Parser(private val tokens: List<Token>) {
 
             when (currentToken.type) {
                 TokenType.LET -> {
-                    root = insertNode(root, parseDeclarationAssignation())
+                    root = insertNode(root, parseDeclaration())
                 }
                 TokenType.PRINTLN -> {
                     root = insertNode(root, parsePrintlnStatement())
@@ -45,16 +45,22 @@ class Parser(private val tokens: List<Token>) {
         return root
     }
 
-    private fun parseDeclarationAssignation(): TreeNode {
+    private fun parseDeclaration(): TreeNode {
         getTokenAndAdvance(TokenType.LET)
         val declarationType = TokenType.LET
         val declarationNode = TreeNode(declarationType, headValue = declarationType.toString())
+
         val identifierToken = getTokenAndAdvance(TokenType.IDENTIFIER)
+
+        getTokenAndAdvance(TokenType.COLON)
+
         val typeToken = if (getCurrentToken().type == TokenType.NUMBER_TYPE) {
             getTokenAndAdvance(TokenType.NUMBER_TYPE)
         } else {
             getTokenAndAdvance(TokenType.STRING_TYPE)
         }
+
+        getTokenAndAdvance(TokenType.SEMICOLON)
 
         return declarationNode
     }
@@ -71,18 +77,18 @@ class Parser(private val tokens: List<Token>) {
         return statementNode
     }
 
-    private fun parseContent(): BinaryNode {
+    private fun parseContent(): TreeNode {
         val currentToken = getCurrentToken()
         currentTokenIndex++
         return when (currentToken.type) {
             TokenType.STRING_LITERAL -> {
-                StringOperator(currentToken.value)
+                TreeNode(currentToken.type, headValue = currentToken.value)
             }
             TokenType.NUMERIC_LITERAL -> {
-                NumberOperator(currentToken.value.toDouble())
+                TreeNode(currentToken.type, headValue = currentToken.value)
             }
             TokenType.IDENTIFIER -> {
-                IdentifierOperator(currentToken.value)
+                TreeNode(currentToken.type, headValue = currentToken.value)
             }
             else -> {
                 throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea ${currentTokenIndex}")

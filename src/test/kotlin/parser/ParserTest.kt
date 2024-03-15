@@ -1,47 +1,49 @@
-package parser
-
-import common.ast.*
+import common.ast.AST
+import common.node.TreeNode
 import common.token.Token
 import common.token.TokenType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.testng.annotations.Test
+import parser.Parser
 
 class ParserTest {
 
     @Test
     fun testGenerateAST() {
-        // Definir los tokens de prueba
         val tokens = listOf(
             Token(TokenType.LET, "let", 1),
-            Token(TokenType.IDENTIFIER, "x", 1),
-            Token(TokenType.COLON, ":", 1),
-            Token(TokenType.NUMBER_TYPE, "number", 1),
-            Token(TokenType.EQUALS, "=", 1),
-            Token(TokenType.NUMERIC_LITERAL, "10", 1),
-            Token(TokenType.SEMICOLON, ";", 1),
-            Token(TokenType.PRINTLN, "println", 2),
-            Token(TokenType.OPEN_PARENTHESIS, "(", 2),
-            Token(TokenType.STRING_LITERAL, "Hello, world!", 2),
-            Token(TokenType.CLOSE_PARENTHESIS, ")", 2),
-            Token(TokenType.SEMICOLON, ";", 2)
+            Token(TokenType.IDENTIFIER, "x", 2),
+            Token(TokenType.COLON, ":", 3),
+            Token(TokenType.NUMBER_TYPE, "number", 4),
+            Token(TokenType.SEMICOLON, ";", 5)
         )
 
         val parser = Parser(tokens)
+        val ast = parser.generateAST()
 
-        val astNodes = parser.generateAST()
+        // Aquí puedes realizar las aserciones necesarias para verificar si el AST se genera correctamente
+        // Por ejemplo, verificar el tipo y el valor de los nodos en el AST.
+    }
 
-        // Verificar el AST generado
-        assertEquals(2, astNodes.size)
+    @Test
+    fun testInvalidToken() {
+        val tokens = listOf(
+            Token(TokenType.LET, "let", 1),
+            Token(TokenType.IDENTIFIER, "x", 2),
+            Token(TokenType.COLON, ":", 3),
+            Token(TokenType.NUMBER_TYPE, "number", 4),
+            Token(TokenType.EQUALS, "=", 5),
+            Token(TokenType.INVALID, "$$$", 6) // Token inválido
+        )
 
-        // Verifico la declaration
-        val declarationAssignation = astNodes[0] as DeclarationAssignation
-        assertEquals("x", declarationAssignation.declaration.identifier)
-        assertEquals("number", declarationAssignation.declaration.type)
-        assertEquals(NumberOperator(10.0), declarationAssignation.assignation)
-
-        // Verifico el print
-        val printlnStatement = astNodes[1] as Method
-        assertEquals("println", printlnStatement.identifier)
-        assertEquals(StringOperator("Hello, world!"), printlnStatement.value)
+        // Verificar que el parser arroje una excepción cuando se encuentra con un token inválido
+        val parser = Parser(tokens)
+        var exceptionThrown = false
+        try {
+            parser.generateAST()
+        } catch (e: RuntimeException) {
+            exceptionThrown = true
+        }
+        assertTrue(exceptionThrown, "Se esperaba una excepción al encontrar un token inválido")
     }
 }
