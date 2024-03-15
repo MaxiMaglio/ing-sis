@@ -1,8 +1,9 @@
 package interpreter.implementation
 
 import common.ast.AST
-import common.ast.node.LeafNode
 import common.ast.node.TreeNode
+import common.node.LeafNode
+import common.node.TreeNode
 import interpreter.`interface`.Interpreter
 
 class AssignationInterpreter(private val symbolTable: MutableMap<String, String?>) : Interpreter {

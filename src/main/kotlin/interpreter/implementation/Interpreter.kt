@@ -1,4 +1,3 @@
-import common.ast.AST
 import common.ast.implementation.AssignationAST
 import common.ast.implementation.DeclarationAST
 import common.ast.implementation.DeclarationAssignationAST

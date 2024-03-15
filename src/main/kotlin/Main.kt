@@ -12,7 +12,7 @@ fun main() {
     val lexer2 = Lexer("let number: Int = 2")
     val tokens2 = lexer2.convertToToken()
     tokens2.forEach { token ->
-        println("Type: ${token.type}, Value: ${token.value}, Line: ${token.lineNumber}, Position: ${token.position}")
+        println("Type: ${token.type}, Value: ${token.value}, Line: ${token.position}, Position: ${token.position}")
     }
 
 
