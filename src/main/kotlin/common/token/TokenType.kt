@@ -19,8 +19,9 @@ enum class TokenType {
     //types
     STRING_TYPE,
     NUMBER_TYPE,
+    TYPE, //type of variable: int, string, float, etc.
 
-    //declarations
+    //declarations (values)
     NUMERIC_LITERAL,
     STRING_LITERAL,
 
@@ -38,10 +39,10 @@ enum class TokenType {
     CLOSE_PARENTHESIS,
     SEMICOLON,
     COLON,
-    WHITESPACE;
+    WHITESPACE,
+    ASSIGN,
+    LITERAL,
 
-
-
-
+    INVALID;
 
 }
