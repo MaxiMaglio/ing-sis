@@ -1,6 +1,7 @@
 package lexer
 
 import common.token.TokenType
+import lexer.implementation.Lexer
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
