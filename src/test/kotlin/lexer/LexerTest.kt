@@ -2,8 +2,9 @@ package lexer
 
 import common.token.TokenType
 import lexer.implementation.Lexer
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import kotlin.test.assertEquals
+
 
 class LexerTest {
     @Test

@@ -2,9 +2,10 @@ import common.ast.AST
 import common.node.TreeNode
 import common.token.Token
 import common.token.TokenType
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
+import org.junit.Test
+
 import parser.Parser
+import kotlin.test.assertEquals
 
 class ParserTest {
 

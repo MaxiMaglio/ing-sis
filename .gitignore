@@ -2,6 +2,10 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+build/
+.idea/
+.gradle/
+
 
 ### Eclipse ###
 .apt_generated
@@ -28,4 +32,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-.idea
+
+ing-sis.iml
+misc.xml
