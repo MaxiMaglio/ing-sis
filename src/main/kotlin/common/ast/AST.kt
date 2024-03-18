@@ -16,5 +16,18 @@ data class NumberOperator(val value: Double): BinaryNode
 data class IdentifierOperator(val identifier: String): BinaryNode
 
 class AST(private val root: TreeNode?) {
-    // Métodos y propiedades adicionales de la clase AST, si es necesario
+    fun getRootNode(): TreeNode? {
+        return root
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || other !is AST) return false
+
+        return root == other.root
+    }
+
+    override fun hashCode(): Int {
+        return root?.hashCode() ?: 0
+    }
 }
