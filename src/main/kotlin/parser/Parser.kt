@@ -45,12 +45,22 @@ class Parser(private val tokens: List<Token>) {
         return root
     }
 
+
+    /** DECLARACION DE VARIABLES
+     *  Variables con el keyword “let”
+     *  Sin inferencia de tipos, es decir se debe aclarar el tipo de la variable (let <identifier> : <type> ; )
+     *  Ejemplo: let x: number;
+     *  Se puede declarar sólo una variable por sentencia.
+     *  Se puede declarar y asignar un valor en una misma sentencia.
+     */
     private fun parseDeclaration(): TreeNode {
         getTokenAndAdvance(TokenType.LET)
         val declarationType = TokenType.LET
         val declarationNode = TreeNode(declarationType, headValue = declarationType.toString())
 
         val identifierToken = getTokenAndAdvance(TokenType.IDENTIFIER)
+        val identifierNode = TreeNode(identifierToken.type, headValue = identifierToken.value)
+        declarationNode.left = identifierNode
 
         getTokenAndAdvance(TokenType.COLON)
 
@@ -59,11 +69,14 @@ class Parser(private val tokens: List<Token>) {
         } else {
             getTokenAndAdvance(TokenType.STRING_TYPE)
         }
+        val typeNode = TreeNode(typeToken.type, headValue = typeToken.value)
+        declarationNode.right = typeNode
 
         getTokenAndAdvance(TokenType.SEMICOLON)
 
         return declarationNode
     }
+
 
     private fun parsePrintlnStatement(): TreeNode {
         getTokenAndAdvance(TokenType.PRINTLN)

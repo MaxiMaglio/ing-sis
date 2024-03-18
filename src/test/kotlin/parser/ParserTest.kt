@@ -2,10 +2,9 @@ import common.ast.AST
 import common.node.TreeNode
 import common.token.Token
 import common.token.TokenType
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import parser.Parser
-import kotlin.test.assertTrue
 
 class ParserTest {
 
@@ -22,8 +21,13 @@ class ParserTest {
         val parser = Parser(tokens)
         val ast = parser.generateAST()
 
-        // Aquí puedes realizar las aserciones necesarias para verificar si el AST se genera correctamente
-        // Por ejemplo, verificar el tipo y el valor de los nodos en el AST.
+        // Verificar que el AST se haya generado correctamente
+        val expectedAST = AST(TreeNode(TokenType.LET, null, null, "LET"))
+        val rootNode = expectedAST.getRootNode()
+        rootNode?.left = TreeNode(TokenType.IDENTIFIER, null, null, "x")
+        rootNode?.right = TreeNode(TokenType.NUMBER_TYPE, null, null, "number")
+
+        assertEquals(expectedAST, ast, "El AST generado no es el esperado")
     }
 
     @Test
@@ -45,6 +49,6 @@ class ParserTest {
         } catch (e: RuntimeException) {
             exceptionThrown = true
         }
-        assertTrue(exceptionThrown, "Se esperaba una excepción al encontrar un token inválido")
+        assertEquals(true, exceptionThrown, "Se esperaba una excepción al encontrar un token inválido")
     }
 }
