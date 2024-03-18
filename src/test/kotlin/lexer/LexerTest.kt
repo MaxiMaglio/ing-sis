@@ -2,8 +2,8 @@ package lexer
 
 import common.token.TokenType
 import lexer.implementation.Lexer
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.testng.annotations.Test
 
 
 class LexerTest {

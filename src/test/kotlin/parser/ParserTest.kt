@@ -1,10 +1,11 @@
+package parser
+
 import common.ast.AST
 import common.node.TreeNode
 import common.token.Token
 import common.token.TokenType
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import parser.Parser
+import org.testng.annotations.Test
 
 class ParserTest {
 
