@@ -5,7 +5,6 @@ import lexer.implementation.Lexer
 import org.junit.Test
 import kotlin.test.assertEquals
 
-
 class LexerTest {
     @Test
     fun `convertToToken should return correct tokens for simple arithmetic expression`() {

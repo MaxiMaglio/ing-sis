@@ -6,7 +6,6 @@ import common.token.Token
 import common.token.TokenType
 
 class Parser(private val tokens: List<Token>) {
-
     private var currentTokenIndex = 0
 
     fun generateAST(): AST {
@@ -23,7 +22,7 @@ class Parser(private val tokens: List<Token>) {
                     root = insertNode(root, parsePrintlnStatement())
                 }
                 else -> {
-                    throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea ${currentTokenIndex}")
+                    throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea $currentTokenIndex")
                 }
             }
         }
@@ -31,7 +30,10 @@ class Parser(private val tokens: List<Token>) {
         return AST(root)
     }
 
-    private fun insertNode(root: TreeNode?, newNode: TreeNode): TreeNode {
+    private fun insertNode(
+        root: TreeNode?,
+        newNode: TreeNode,
+    ): TreeNode {
         if (root == null) {
             return newNode
         }
@@ -44,7 +46,6 @@ class Parser(private val tokens: List<Token>) {
 
         return root
     }
-
 
     /** DECLARACION DE VARIABLES
      *  Variables con el keyword “let”
@@ -64,11 +65,12 @@ class Parser(private val tokens: List<Token>) {
 
         getTokenAndAdvance(TokenType.COLON)
 
-        val typeToken = if (getCurrentToken().type == TokenType.NUMBER_TYPE) {
-            getTokenAndAdvance(TokenType.NUMBER_TYPE)
-        } else {
-            getTokenAndAdvance(TokenType.STRING_TYPE)
-        }
+        val typeToken =
+            if (getCurrentToken().type == TokenType.NUMBER_TYPE) {
+                getTokenAndAdvance(TokenType.NUMBER_TYPE)
+            } else {
+                getTokenAndAdvance(TokenType.STRING_TYPE)
+            }
         val typeNode = TreeNode(typeToken.type, headValue = typeToken.value)
         declarationNode.right = typeNode
 
@@ -76,7 +78,6 @@ class Parser(private val tokens: List<Token>) {
 
         return declarationNode
     }
-
 
     private fun parsePrintlnStatement(): TreeNode {
         getTokenAndAdvance(TokenType.PRINTLN)
@@ -104,7 +105,7 @@ class Parser(private val tokens: List<Token>) {
                 TreeNode(currentToken.type, headValue = currentToken.value)
             }
             else -> {
-                throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea ${currentTokenIndex}")
+                throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea $currentTokenIndex")
             }
         }
     }
@@ -116,7 +117,7 @@ class Parser(private val tokens: List<Token>) {
             currentTokenIndex++
             return currentToken
         } else {
-            throw RuntimeException("Se esperaba un token de tipo $type pero fue de tipo $currentTokenType en la línea ${currentTokenIndex}")
+            throw RuntimeException("Se esperaba un token de tipo $type pero fue de tipo $currentTokenType en la línea $currentTokenIndex")
         }
     }
 

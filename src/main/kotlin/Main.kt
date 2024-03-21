@@ -1,7 +1,6 @@
 import lexer.implementation.Lexer
 
 fun main() {
-
 //    val lexer = Lexer("123 + 456 - 789")
 //    val tokens = lexer.convertToToken()
 //
@@ -14,6 +13,4 @@ fun main() {
     tokens2.forEach { token ->
         println("Type: ${token.type}, Value: ${token.value}, Line: ${token.position}, Position: ${token.position}")
     }
-
-
 }

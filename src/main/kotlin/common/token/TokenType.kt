@@ -1,10 +1,9 @@
 package common.token
 
 enum class TokenType {
+    IDENTIFIER, // variable name
 
-    IDENTIFIER, //variable name
-
-    //keywords
+    // keywords
     LET,
     PRINTLN,
     IF,
@@ -16,16 +15,16 @@ enum class TokenType {
     PRIVATE,
     PROTECTED,
 
-    //types
+    // types
     STRING_TYPE,
     NUMBER_TYPE,
-    TYPE, //type of variable: int, string, float, etc.
+    TYPE, // type of variable: int, string, float, etc.
 
-    //declarations (values)
+    // declarations (values)
     NUMERIC_LITERAL,
     STRING_LITERAL,
 
-    //operators
+    // operators
     EQUALS,
     PLUS,
     MINUS,
@@ -34,7 +33,7 @@ enum class TokenType {
     GREATER_THAN,
     LESSER_THAN,
 
-    //symbols
+    // symbols
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
     SEMICOLON,
@@ -43,6 +42,5 @@ enum class TokenType {
     ASSIGN,
     LITERAL,
 
-    INVALID;
-
+    INVALID,
 }

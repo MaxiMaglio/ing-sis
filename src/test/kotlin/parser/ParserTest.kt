@@ -3,21 +3,20 @@ import common.node.TreeNode
 import common.token.Token
 import common.token.TokenType
 import org.junit.Test
-
 import parser.Parser
 import kotlin.test.assertEquals
 
 class ParserTest {
-
     @Test
     fun testGenerateAST() {
-        val tokens = listOf(
-            Token(TokenType.LET, "let", 1),
-            Token(TokenType.IDENTIFIER, "x", 2),
-            Token(TokenType.COLON, ":", 3),
-            Token(TokenType.NUMBER_TYPE, "number", 4),
-            Token(TokenType.SEMICOLON, ";", 5)
-        )
+        val tokens =
+            listOf(
+                Token(TokenType.LET, "let", 1),
+                Token(TokenType.IDENTIFIER, "x", 2),
+                Token(TokenType.COLON, ":", 3),
+                Token(TokenType.NUMBER_TYPE, "number", 4),
+                Token(TokenType.SEMICOLON, ";", 5),
+            )
 
         val parser = Parser(tokens)
         val ast = parser.generateAST()
@@ -33,14 +32,15 @@ class ParserTest {
 
     @Test
     fun testInvalidToken() {
-        val tokens = listOf(
-            Token(TokenType.LET, "let", 1),
-            Token(TokenType.IDENTIFIER, "x", 2),
-            Token(TokenType.COLON, ":", 3),
-            Token(TokenType.NUMBER_TYPE, "number", 4),
-            Token(TokenType.EQUALS, "=", 5),
-            Token(TokenType.INVALID, "$$$", 6) // Token inválido
-        )
+        val tokens =
+            listOf(
+                Token(TokenType.LET, "let", 1),
+                Token(TokenType.IDENTIFIER, "x", 2),
+                Token(TokenType.COLON, ":", 3),
+                Token(TokenType.NUMBER_TYPE, "number", 4),
+                Token(TokenType.EQUALS, "=", 5),
+                Token(TokenType.INVALID, "$$$", 6), // Token inválido
+            )
 
         // Verificar que el parser arroje una excepción cuando se encuentra con un token inválido
         val parser = Parser(tokens)
