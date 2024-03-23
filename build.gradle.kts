@@ -10,6 +10,22 @@ repositories {
     mavenCentral()
 }
 
+subprojects{
+    println("Configuring subproject: $name")
+    apply {
+        plugin("org.jlleitschuh.gradle.ktlint")
+        plugin("org.jetbrains.kotlin.jvm")
+    }
+    dependencies{
+        implementation(kotlin("stdlib"))
+        testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.10")
+        testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.8.10")
+    }
+    repositories {
+        mavenCentral()
+    }
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.8.10")
