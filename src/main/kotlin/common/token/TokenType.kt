@@ -28,9 +28,10 @@ enum class TokenType {
     //operators
     EQUALS,
     PLUS,
+    MULTIPLY,
     MINUS,
     TIMES,
-    DIVIDED_BY,
+    DIVIDE,
     GREATER_THAN,
     LESSER_THAN,
 

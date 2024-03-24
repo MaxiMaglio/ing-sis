@@ -31,7 +31,7 @@ class Lexer(private val input: String) {
                     position++
                 }
                 '/'-> {
-                    tokens.add(Token(TokenType.DIVIDED_BY, currentChar.toString(), lineNumber, position + 1))
+                    tokens.add(Token(TokenType.DIVIDE, currentChar.toString(), lineNumber, position + 1))
                     position++
                 }
                 '='-> {
