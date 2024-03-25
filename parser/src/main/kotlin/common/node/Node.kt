@@ -2,27 +2,16 @@ package common.node
 
 import common.token.TokenType
 
-interface Node {
-    fun getValue(): String
-}
-
-data class LeafNode(val type: TokenType, private val value: String) : Node {
-    override fun getValue(): String {
-        return value
-    }
-}
-
-data class TreeNode(
+data class Node(
     val type: TokenType,
-    var left: TreeNode? = null,
-    var right: TreeNode? = null,
-    private val headValue: String,
-) : Node, Comparable<TreeNode> {
-    override fun getValue(): String {
-        return headValue
-    }
+    var left: Node? = null,
+    var right: Node? = null,
+    val headValue: String
+) : Comparable<Node>{
 
-    override fun compareTo(other: TreeNode): Int {
+    override fun compareTo(other: Node): Int {
         return headValue.compareTo(other.headValue)
     }
 }
+
+

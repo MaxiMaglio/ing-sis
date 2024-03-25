@@ -1,36 +1,100 @@
+package parser
+
 import common.ast.*
-import common.node.*
-import common.token.*
+import common.token.Token
+import common.token.TokenType
 
 class Parser(private val tokens: List<Token>) {
+
     private var currentTokenIndex = 0
 
-    fun generateAST(): AST {
-        var root: TreeNode? = null
-
-        while (currentTokenIndex < tokens.size) {
-            val currentToken = tokens[currentTokenIndex]
-
-            when (currentToken.type) {
-                TokenType.LET -> {
-                    root = insertNode(root, parseDeclaration())
-                }
-                TokenType.PRINTLN -> {
-                    root = insertNode(root, parsePrintlnStatement())
-                }
-                else -> {
-                    throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea $currentTokenIndex")
-                }
-            }
-        }
-
-        return AST(root)
+    fun generateAST(): BinaryNode? {
+        return parseExpression()
     }
 
-    private fun insertNode(
-        root: TreeNode?,
-        newNode: TreeNode,
-    ): TreeNode {
+    private fun parseExpression(): BinaryNode? {
+        return parseAddition()
+    }
+
+    fun parseAddition(): BinaryNode? {
+        var node: BinaryNode? = parseMultiplication()
+
+        while (currentTokenIndex < tokens.size && (isCurrentToken(TokenType.PLUS) || isCurrentToken(TokenType.MINUS))) {
+            val token = consumeCurrentToken()
+            val rightNode = parseMultiplication()
+            node = BinaryOperationNode(token.value, node, rightNode)
+        }
+
+        return node
+    }
+
+    fun parseMultiplication(): BinaryNode? {
+        var node: BinaryNode? = parseContent() as? BinaryNode
+
+        while (currentTokenIndex < tokens.size &&
+            (isCurrentToken(TokenType.MULTIPLY) || isCurrentToken(TokenType.DIVIDE))) {
+            val token = consumeCurrentToken()
+            val rightNode = parseContent() as? BinaryNode
+
+            node = BinaryOperationNode(token.value, node, rightNode)
+        }
+
+        return node
+    }
+
+
+
+    fun parseContent(): BinaryNode? {
+        val currentToken = getCurrentToken()
+
+        return when (currentToken.type) {
+            TokenType.NUMBER_TYPE -> {
+                consumeCurrentToken()
+                NumberOperatorNode(currentToken.value.toDouble())
+            }
+            TokenType.IDENTIFIER -> {
+                consumeCurrentToken()
+                IdentifierOperatorNode(currentToken.value)
+            }
+            TokenType.STRING_TYPE -> {
+                consumeCurrentToken()
+                StringOperatorNode(currentToken.value)
+            }
+            TokenType.OPEN_PARENTHESIS -> {
+                consumeCurrentToken()
+                val node = parseExpression()
+                this.getTokenAndAdvance(TokenType.CLOSE_PARENTHESIS)
+                node as? BinaryNode
+            }
+            else -> null
+        }
+    }
+
+    private fun isCurrentToken(type: TokenType): Boolean {
+        return getCurrentToken().type == type
+    }
+
+    private fun consumeCurrentToken(): Token {
+        val token = getCurrentToken()
+        currentTokenIndex++
+        return token
+    }
+
+    private fun getTokenAndAdvance(type: TokenType): Token {
+        val currentToken = getCurrentToken()
+        if (currentToken.type == type) {
+            currentTokenIndex++
+            return currentToken
+        } else {
+            throw RuntimeException("Expected token of type $type but found ${currentToken.type}")
+        }
+    }
+
+    private fun getCurrentToken(): Token {
+        return tokens[currentTokenIndex]
+    }
+
+    /*private fun insertNode(root: Node?, newNode: Node): Node {
         if (root == null) {
             return newNode
         }
@@ -44,81 +108,69 @@ class Parser(private val tokens: List<Token>) {
         return root
     }
 
-    /** DECLARACION DE VARIABLES
+
+    *//** DECLARACION DE VARIABLES
      *  Variables con el keyword “let”
      *  Sin inferencia de tipos, es decir se debe aclarar el tipo de la variable (let <identifier> : <type> ; )
      *  Ejemplo: let x: number;
      *  Se puede declarar sólo una variable por sentencia.
      *  Se puede declarar y asignar un valor en una misma sentencia.
-     */
-    private fun parseDeclaration(): TreeNode {
-        getTokenAndAdvance(TokenType.LET)
+     *//*
+    private fun parseDeclaration(): DeclarationNode {
+        this.getTokenAndAdvance(TokenType.LET)
         val declarationType = TokenType.LET
-        val declarationNode = TreeNode(declarationType, headValue = declarationType.toString())
 
-        val identifierToken = getTokenAndAdvance(TokenType.IDENTIFIER)
-        val identifierNode = TreeNode(identifierToken.type, headValue = identifierToken.value)
+        val identifierToken = this.getTokenAndAdvance(TokenType.IDENTIFIER)
+        val declarationNode = DeclarationNode(identifierToken.toString(), declarationType.toString())
+        val identifierNode = Node(identifierToken.type, headValue = identifierToken.value)
         declarationNode.left = identifierNode
 
-        getTokenAndAdvance(TokenType.COLON)
+        this.getTokenAndAdvance(TokenType.COLON)
 
-        val typeToken =
-            if (getCurrentToken().type == TokenType.NUMBER_TYPE) {
-                getTokenAndAdvance(TokenType.NUMBER_TYPE)
-            } else {
-                getTokenAndAdvance(TokenType.STRING_TYPE)
-            }
-        val typeNode = TreeNode(typeToken.type, headValue = typeToken.value)
+        val typeToken = if (getCurrentToken().type == TokenType.NUMBER_TYPE) {
+            this.getTokenAndAdvance(TokenType.NUMBER_TYPE)
+        } else {
+            this.getTokenAndAdvance(TokenType.STRING_TYPE)
+        }
+        val typeNode = Node(typeToken.type, headValue = typeToken.value)
         declarationNode.right = typeNode
 
-        getTokenAndAdvance(TokenType.SEMICOLON)
+        this.getTokenAndAdvance(TokenType.SEMICOLON)
 
         return declarationNode
     }
 
-    private fun parsePrintlnStatement(): TreeNode {
-        getTokenAndAdvance(TokenType.PRINTLN)
+
+    fun parsePrintlnStatement(): Node {
+        this.getTokenAndAdvance(TokenType.PRINTLN)
         val statementType = TokenType.PRINTLN
-        val statementNode = TreeNode(statementType, headValue = statementType.toString())
-        getTokenAndAdvance(TokenType.OPEN_PARENTHESIS)
+        val statementNode = Node(statementType, headValue = statementType.toString())
+        this.getTokenAndAdvance(TokenType.OPEN_PARENTHESIS)
         val content = parseContent()
-        getTokenAndAdvance(TokenType.CLOSE_PARENTHESIS)
-        getTokenAndAdvance(TokenType.SEMICOLON)
+        statementNode.right = content
+        this.getTokenAndAdvance(TokenType.CLOSE_PARENTHESIS)
+        this.getTokenAndAdvance(TokenType.SEMICOLON)
 
         return statementNode
     }
 
-    private fun parseContent(): TreeNode {
+    fun parseContent(): Node {
         val currentToken = getCurrentToken()
         currentTokenIndex++
         return when (currentToken.type) {
             TokenType.STRING_LITERAL -> {
-                TreeNode(currentToken.type, headValue = currentToken.value)
+                Node(currentToken.type, headValue = currentToken.value)
             }
             TokenType.NUMERIC_LITERAL -> {
-                TreeNode(currentToken.type, headValue = currentToken.value)
+                Node(currentToken.type, headValue = currentToken.value)
             }
             TokenType.IDENTIFIER -> {
-                TreeNode(currentToken.type, headValue = currentToken.value)
+                Node(currentToken.type, headValue = currentToken.value)
             }
             else -> {
-                throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea $currentTokenIndex")
+                throw RuntimeException("Token de tipo ${currentToken.type} inesperado en la línea ${currentTokenIndex}")
             }
         }
-    }
+    }*/
 
-    private fun getTokenAndAdvance(type: TokenType): Token {
-        val currentToken = getCurrentToken()
-        val currentTokenType = currentToken.type
-        if (currentTokenType == type) {
-            currentTokenIndex++
-            return currentToken
-        } else {
-            throw RuntimeException("Se esperaba un token de tipo $type pero fue de tipo $currentTokenType en la línea $currentTokenIndex")
-        }
-    }
-
-    private fun getCurrentToken(): Token {
-        return tokens[currentTokenIndex]
-    }
 }
